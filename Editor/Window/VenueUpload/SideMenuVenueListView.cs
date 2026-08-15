@@ -257,15 +257,67 @@ namespace ClusterVR.CreatorKit.Editor.Window.VenueUpload
         void RenderVenueList(List<Venue> venues)
         {
             venueList.Clear();
+
+            var bulkLockButton = new VenueBulkLockButton(venues)
+            {
+                style =
+                {
+                    flexDirection = new StyleEnum<FlexDirection>(FlexDirection.Row),
+                    alignItems = Align.Center,
+                    justifyContent = Justify.SpaceBetween,
+                    marginTop = 2,
+                    marginBottom = 2,
+                }
+            };
+            bulkLockButton.OnBulkLockStateChanged += () => RenderVenueList(venues);
+            venueList.Add(bulkLockButton);
+
             foreach (var venue in venues.OrderBy(venue => venue.Name))
             {
+                var isLocked = LocalVenueLockStore.IsVenueLocked(venue);
+                var row = new VisualElement
+                {
+                    style =
+                    {
+                        flexDirection = new StyleEnum<FlexDirection>(FlexDirection.Row),
+                        alignItems = Align.Center,
+                        justifyContent = Justify.SpaceBetween,
+                        marginTop = 2,
+                        marginBottom = 2
+                    }
+                };
+
+                var lockButtonRow = new VenueLockButtonRow(venue)
+                {
+                    style =
+                    {
+                        flexDirection = new StyleEnum<FlexDirection>(FlexDirection.Row),
+                        alignItems = Align.Center,
+                        justifyContent = Justify.SpaceBetween,
+                        marginTop = 2,
+                        marginBottom = 2
+                    }
+                };
+                lockButtonRow.OnLockToggled += () => RenderVenueList(venues);
+
                 var venueButton = new Button
                 {
                     text = venue.IsBeta ? $"[beta] {venue.Name}" : venue.Name,
-                    style = { unityTextAlign = TextAnchor.MiddleLeft }
+                    style = { unityTextAlign = TextAnchor.MiddleLeft, flexGrow = 1 }
                 };
-                venueButton.clicked += () => OnVenueClicked?.Invoke(venue);
-                venueList.Add(venueButton);
+                venueButton.SetEnabled(!isLocked);
+                venueButton.tooltip = isLocked ? TranslationTable.cck_locked_on_this_machine : string.Empty;
+                venueButton.clicked += () =>
+                {
+                    if (!LocalVenueLockStore.IsVenueLocked(venue))
+                    {
+                        OnVenueClicked?.Invoke(venue);
+                    }
+                };
+
+                row.Add(lockButtonRow);
+                row.Add(venueButton);
+                venueList.Add(row);
             }
         }
     }
