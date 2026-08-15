@@ -222,6 +222,11 @@ namespace ClusterVR.CreatorKit.Translation
         public const string cck_load_failed = "読み込みに失敗しました";
         public const string cck_load_scene = "Load scene: {0}";
         public const string cck_loading = "ロード中";
+        public const string cck_lock_venue_on_this_machine = "Lock venue on this machine";
+        public const string cck_locked_on_this_machine = "Locked on this machine";
+        public const string cck_unlock_venue = "Unlock venue";
+        public const string cck_lock_all_venues = "Lock All";
+        public const string cck_unlock_all_venues = "Unlock All";
         public const string cck_main_scene = "メインシーン";
         public const string cck_main_scene_build = "{0} メインシーンのビルド";
         public const string cck_main_scene_size = "{0} メインシーン サイズ";
@@ -666,6 +671,11 @@ namespace ClusterVR.CreatorKit.Translation
         public const string cck_load_failed = "Failed to load";
         public const string cck_load_scene = "Load scene: {0}";
         public const string cck_loading = "Loading...";
+        public const string cck_lock_venue_on_this_machine = "Lock venue on this machine";
+        public const string cck_locked_on_this_machine = "Locked on this machine";
+        public const string cck_unlock_venue = "Unlock venue";
+        public const string cck_lock_all_venues = "Lock All";
+        public const string cck_unlock_all_venues = "Unlock All";
         public const string cck_main_scene = "Main Scene";
         public const string cck_main_scene_build = "{0}: Building main scene";
         public const string cck_main_scene_size = "{0} Main Scene Size";

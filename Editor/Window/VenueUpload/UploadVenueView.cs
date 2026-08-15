@@ -104,7 +104,8 @@ namespace ClusterVR.CreatorKit.Editor.Window.VenueUpload
                 EditorGUILayout.HelpBox(message, MessageType.Error);
             }
 
-            var canUpload = isVenueUploadSettingValid && betaSettingValid;
+            var isLocked = LocalVenueLockStore.IsVenueLocked(venue);
+            var canUpload = isVenueUploadSettingValid && betaSettingValid && !isLocked;
 
             using (new EditorGUI.DisabledScope(!canUpload))
             {
@@ -266,13 +267,13 @@ namespace ClusterVR.CreatorKit.Editor.Window.VenueUpload
             var buildTargetName = summary.BuildTarget.DisplayName();
             {
                 var size = summary.MainSceneSummary.TotalSize;
-                EditorGUILayout.LabelField(TranslationUtility.GetMessage(TranslationTable.cck_main_scene_size, buildTargetName), $"{(double) size / (1024 * 1024):F2} MB"); // Byte => MByte
+                EditorGUILayout.LabelField(TranslationUtility.GetMessage(TranslationTable.cck_main_scene_size, buildTargetName), $"{(double)size / (1024 * 1024):F2} MB"); // Byte => MByte
             }
             var subSceneIndex = 1;
             foreach (var subSceneSummary in summary.SubSceneSummaries)
             {
                 var size = subSceneSummary.TotalSize;
-                EditorGUILayout.LabelField(TranslationUtility.GetMessage(TranslationTable.cck_sub_scene_size, buildTargetName, subSceneIndex), $"{(double) size / (1024 * 1024):F2} MB"); // Byte => MByte
+                EditorGUILayout.LabelField(TranslationUtility.GetMessage(TranslationTable.cck_sub_scene_size, buildTargetName, subSceneIndex), $"{(double)size / (1024 * 1024):F2} MB"); // Byte => MByte
                 ++subSceneIndex;
             }
         }
